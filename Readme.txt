@@ -1,0 +1,1 @@
+This is a simple C / C ++ program whose purpose is to calculate the roots of any polynomial function provided by the user using Newton's method.
