@@ -3,6 +3,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+void calculate(int *PTRkp, int *PTRkn, float *PTRv1, float *PTRv2, float x, float& dv1, float& dv2, char *p1, int *n1);
+
 int main(void)
 {
 
@@ -10,15 +13,42 @@ int main(void)
 //Declaração das variáveis
 	
 	char a, *expres = NULL, m[1], *p0 = NULL, *p1 = NULL;
-	int i = 0, j = 1, k0, k1 = 0, count0 = 0, count1 = 0, *n0 = NULL, *n1 = NULL;
+	int i = 0, j = 1, k0, k1 = 0, count0 = 0, count1 = 0, *n0 = NULL, *n1 = NULL, kp, kn, stop = 0, language;
+	float v1, v2, x, dv1, dv2, y, dy;
+
+
+//Choosing the language of the program
+//Escolhendo a língua do programa
+
+	printf("\n\n\n	Please, Choose your language.\n\n	Por favor, escolha qual a sua lingua.\n\n\n\n	(1) English/Ingles\n\n	(2) Portuguese/Portugues\n\n");
+	do
+	{
+		printf("\n\n\n	Language/Lingua: ");
+		scanf("%i", &language);
+		fflush(stdin);
+		if (language != 1 && language != 2)
+			printf("\n\n	Invalid choice!\n\n	Escolha invalida!");
+	} while (language != 1 && language != 2);
+
 
 //Determining the expression that represents the function. The expression will be recorded in the variable "expres"
 //Determinando a expressão que representa a função. A expressão ficará gravada na variável "expres"
-	
+		
+	system("cls");
 	expres = (char *) malloc(10 * sizeof(char) + 1);
 	
-	printf("Digite uma expressao para f(x):\n");
-	printf("y = ");
+	
+  	switch (language)
+	{
+		case 1:
+			printf("\n\n\n	Enter an expression for f(x):\n");
+		break;
+		case 2:
+			printf("\n\n\n	Digite uma expressao para f(x):\n");
+		break;
+	}
+	
+	printf("\n	y = ");
 	
 	while ((a = getchar()) != '\n' && a != EOF && a != '\0')
 	{
@@ -138,7 +168,7 @@ Por exemplo, na expressão "23*x+5", o vetor n1 deverá armazenar os valores 23 e 
 
 /*
 From the "p0" vector, the values of "p1" were stored,
-but without the unnecessary repetition of the character "z", which occurred in "p0" in cases of numbers with more than one figure.
+but without the unnecessary repetition of the character "z", which occurred in "p0" in cases of numbers with more than one digit.
 */
 
 /*
@@ -169,4 +199,95 @@ mas sem a repetição desnecessáriado do caractere "z", que ocorria em "p0" nos ca
 	} while (k0 < strlen(expres));
 
 
+/*
+From here begins the implementation part of Newton's method, itself.
+The following new variables are introduced: "kp", "kn", "v1", "v2", "dv1" and "dv2".
+"kp" and "kn" have a function similar to the variable "k0". They function as indices of the vectors "p" and "n", respectively.
+The variables "v1" and "v2" represent provisional values of parts of the function. They are used to calculate the value of y.
+The variables "dv1" and "dv2", in turn, represent temporary derivatives of parts of the function. They serve to calculate the value of the derivative of y for the given x.
+*/
+
+/*
+A partir daqui começa a parte de implementação do método de Newton, propriamente dito.
+São introduzidas as seguintes novas variáveis: "kp", "kn", "v1", "v2", "dv1" e "dv2".
+"kp" e "kn" possuem uma função semelhante à variável "k0". Funcionam como índices dos vetores "p" e "n", respectivamente.
+As variáveis "v1" e "v2" representam valores provisórios de partes da função. Elas são utilizadas para se calcular o valor de y.
+As variáveis "dv1" e "dv2", por sua vez, representam derivadas provisórias de partes da função. Servem para calcular o valor da derivada de y para o x dado. 
+*/
+
+
+	switch (language)
+	{
+		case 1:
+			printf("\n\n	Enter the value of x in which you want to derive the function: ");
+		break;
+		case 2:
+			printf("\n\n	Digite o valor de x no qual deseja derivar a funcao: ");
+		break;
+	}
+	
+	
+  	printf("x = ");
+  	scanf("%f", &x);
+  
+  	 
+  	do{
+    	kp = 0;
+    	kn = 0;
+    	v1 = 0;
+    	v2 = 0;
+    	dv1 = 0;
+    	dv2 = 0;
+     
+    	while (kp < count1){
+        	calculate(&kp, &kn, &v1, &v2, x, dv1, dv2, p1, n1);
+        	kp++;
+     	}
+	 	y = v1;
+     	dy = dv1;
+     	x -= y/dy;
+     	if (stop == 50)
+        	break;
+     	stop += 1;
+  	} while (y > 0.000001 || y < -0.000001);
+  	if (stop == 50)
+  	{
+  		switch (language)
+		{
+			case 1:
+				printf("\n\n	The root was not found!\n");
+			break;
+			case 2:
+				printf("\n\n	A raiz nao foi encontrada!\n");
+			break;
+		}
+  	} else
+  	{
+  		switch (language)
+		{
+			case 1:
+				printf("\n\n	The root of the function is: 5.5f\n", x);
+			break;
+			case 2:
+				printf("\n\n	A raiz da funcao eh: %.5f\n", x);
+			break;
+		}
+    }
+  	switch (language)
+	{
+		case 1:
+			printf("\n\n	PROGRAM COMPLETED!\n\n\n");
+		break;
+		case 2:
+			printf("\n\n	PROGRAMA FINALIZADO!\n\n\n");
+		break;
+	}
+  	system("pause");
+	
+}
+
+
+void calculate(int *PTRkp, int *PTRkn, float *PTRv1, float *PTRv2, float x, float& dv1, float& dv2, char *p1, int *n1){
+	
+	
 }
