@@ -1,8 +1,8 @@
-This is a simple C/C++ program whose purpose is to calculate the roots of any polynomial function provided by the user using Newton's method.
+This is a simple C/C++ program whose purpose is to calculate the roots of any function provided by the user using Newton's method.
 
-Este È um simples programa C/C++ cujo objetivo È calcular as raÌzes de qualquer funÁ„o polinomial fornecida pelo usu·rio usando o mÈtodo de Newton.
+Este √© um simples programa C/C++ cujo objetivo √© calcular as ra√≠zes de qualquer fun√ß√£o fornecida pelo usu√°rio usando o m√©todo de Newton.
 
 
 Attention, don't use spaces when typing the function. To perform an exponentiation, use the symbol '^'.
 
-AtenÁ„o, n„o utilizar espaÁos ao digitar a funÁ„o. Para realizar uma potenciaÁ„o, utilize o sÌmbolo '^'.
+Aten√ß√£o, n√£o utilizar espa√ßos ao digitar a fun√ß√£o. Para realizar uma potencia√ß√£o, utilize o s√≠mbolo '^'.
